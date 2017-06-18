@@ -44,7 +44,7 @@ public class GiftExample {
 				String OrderUrl = row.getString("OrderUrl");
 				String ContactTel = row.getString("ContactTel");
 				String Column1 = row.getString("Column1");
-				
+				//
 				pstmt.setString(1, gid);
 				pstmt.setString(2, Name);
 				pstmt.setString(3, Feature);
