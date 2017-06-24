@@ -19,9 +19,9 @@ public class JDBC09 {
 			
 			String account = "eric", passwd = "12345";
 			
-			String[] result;
-			if ( (result = checkMember(stmt, account, passwd)) != null){
-				System.out.println("Welcome, " + result[3]);
+			Member loginMember;
+			if ( (loginMember = checkMember(stmt, account, passwd)) != null){
+				System.out.println("Welcome, " + loginMember.realname);
 			}else{
 				System.out.println("Error Login");
 			}
@@ -33,25 +33,27 @@ public class JDBC09 {
 		}
 	}
 	
-	static String[] checkMember(Statement stmt, String account, String passwd) throws Exception {
-		String[] ret = new String[4];
-		
+	static Member checkMember(Statement stmt, String account, String passwd) throws Exception {
 		String sql = "SELECT * from member where account = '" + 
 				account + "' and passwd = '" + passwd + "'";
 		ResultSet rs = stmt.executeQuery(sql);
 		if (rs.next()){
 			// right member
-			ret[0] = rs.getString(1);
-			ret[1] = rs.getString(2);
-			ret[2] = rs.getString(3);
-			ret[3] = rs.getString(4);
+			Member member = new Member(rs.getString("id"),
+					rs.getString("account"),
+					rs.getString("realname"));
+			return member;
 		}else{
-			// error account
-			ret = null;
+			return null;
 		}
-		
-		return ret;
+	}
+}
+class Member {
+	String id, account, realname;
+	Member(String id, String account, String realname){
+		this.id=id;
+		this.account=account;
+		this.realname=realname;
 	}
 	
-
 }
