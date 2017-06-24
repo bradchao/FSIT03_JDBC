@@ -4,7 +4,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.Properties;
 
-public class JDBC08 {
+public class JDBC09 {
 
 	public static void main(String[] args) {
 		// -------------------
@@ -17,16 +17,15 @@ public class JDBC08 {
 				prop)){
 			Statement stmt = conn.createStatement();
 			
-			String account = "eric", passwd = "123456", realname = "Eric Ho";
+			String account = "eric", passwd = "12345";
 			
-			if (!isDataRepeat(account, stmt)){
-				String sql = "INSERT INTO member (account,passwd,realname)" +
-						" VALUES ('" + account + "','" + passwd + "','" + realname + "')";
-				stmt.executeUpdate(sql);
-				
+			String[] result;
+			if ( (result = checkMember(stmt, account, passwd)) != null){
+				System.out.println("Welcome, " + result[3]);
 			}else{
-				System.out.println("帳號重複了");
+				System.out.println("Error Login");
 			}
+			
 			
 			System.out.println("OK");
 		}catch(Exception e){
@@ -34,19 +33,24 @@ public class JDBC08 {
 		}
 	}
 	
-	static boolean isDataRepeat(String account, Statement stmt) throws Exception {
-		String sql = "SELECT count(*) as f1 from member where account = '" + account + "'";
+	static String[] checkMember(Statement stmt, String account, String passwd) throws Exception {
+		String[] ret = new String[4];
+		
+		String sql = "SELECT * from member where account = '" + 
+				account + "' and passwd = '" + passwd + "'";
 		ResultSet rs = stmt.executeQuery(sql);
 		if (rs.next()){
-			int num = rs.getInt("f1");
-			if (num>0){
-				return true;
-			}else{
-				return false;
-			}
+			// right member
+			ret[0] = rs.getString(1);
+			ret[1] = rs.getString(2);
+			ret[2] = rs.getString(3);
+			ret[3] = rs.getString(4);
 		}else{
-			throw new Exception("SQL Error");
+			// error account
+			ret = null;
 		}
+		
+		return ret;
 	}
 	
 
