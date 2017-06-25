@@ -8,6 +8,8 @@ import java.util.Properties;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
 import java.sql.ResultSetMetaData;
@@ -34,12 +36,22 @@ public class MyDataTable01 extends JFrame {
 		
 		model = new MyTableModel();
 		table = new JTable(model);
+		
+		table.getSelectionModel().addListSelectionListener(
+			(e)-> MyDataTable01.this.whenSelect(e)
+		);
+		
 		JScrollPane jsp = new JScrollPane(table);
 		add(jsp, BorderLayout.CENTER);
 		
 		setVisible(true);
 		setSize(800, 600);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
+	}
+	
+	private void whenSelect(ListSelectionEvent e){
+		System.out.println(e.getFirstIndex() + " x " +
+				e.getLastIndex());
 	}
 	
 	private class MyTableModel extends DefaultTableModel {
