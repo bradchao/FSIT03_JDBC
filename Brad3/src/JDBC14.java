@@ -25,25 +25,7 @@ public class JDBC14 {
 			Student s1 = new Student("0002",70,20,60);
 			System.out.println(s1.getId() + ":" + s1.total() + ":" + s1.avg());
 			
-//			ObjectOutputStream oout = 
-//				new ObjectOutputStream(
-//					new FileOutputStream("./dir1/s1.obj"));
-//			oout.writeObject(s1);
-//			oout.flush();
-//			oout.close();
-			//------
-//			ObjectInputStream oin = 
-//				new ObjectInputStream(
-//					new FileInputStream("./dir1/s1.obj"));
-//			Student s2 = (Student)oin.readObject();
-			
-//			PreparedStatement pstmt = 
-//					conn.prepareStatement("UPDATE member set obj = ? where id = 1");
-//			pstmt.setBinaryStream(1, new FileInputStream("./dir1/s1.obj"));
-//			pstmt.executeUpdate();
-			
-			//oin.close();
-			//-----------------
+			//Bike b1 = new Bike();
 			
 			
 			PreparedStatement pstmt2 = 

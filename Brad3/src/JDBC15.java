@@ -27,7 +27,6 @@ public class JDBC15 {
 			
 			ObjectInputStream in = new ObjectInputStream(rs.getBinaryStream("obj"));
 			Student s3 = (Student)(in.readObject());
-			System.out.println("read obj => " + s3.getId()+":" + s3.total() + ":"  + s3.avg());
 			in.close();
 			
 			System.out.println("OK");

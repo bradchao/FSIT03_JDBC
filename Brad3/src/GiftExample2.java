@@ -12,13 +12,13 @@ import java.util.Properties;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-public class GiftExample {
+public class GiftExample2 {
 
 	public static void main(String[] args) {
 		String strUrl = "http://data.coa.gov.tw/Service/OpenData/ODwsv/ODwsvAgriculturalProduce.aspx";
 		String json = getJSONString(strUrl);
-		
 		long start = System.currentTimeMillis();
+		
 		// -------------------
 		Properties prop = new Properties();
 		prop.setProperty("user", "root");
@@ -55,8 +55,10 @@ public class GiftExample {
 				pstmt.setString(7, OrderUrl);
 				pstmt.setString(8, ContactTel);
 				pstmt.setString(9, Column1);
-				pstmt.execute();
+				
+				pstmt.addBatch();
 			}
+			pstmt.executeBatch();
 			System.out.println("OK");
 			System.out.println(System.currentTimeMillis()- start);
 		}catch(Exception e){

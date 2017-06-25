@@ -1,6 +1,7 @@
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Properties;
 
@@ -15,21 +16,33 @@ public class JDBC08 {
 		try (Connection conn = 
 			DriverManager.getConnection("jdbc:mysql://127.0.0.1:8889/brad", 
 				prop)){
-			Statement stmt = conn.createStatement();
+			conn.setAutoCommit(false);
 			
-			String account = "eric", passwd = "123456", realname = "Eric Ho";
-			
-			if (!isDataRepeat(account, stmt)){
-				String sql = "INSERT INTO member (account,passwd,realname)" +
-						" VALUES ('" + account + "','" + passwd + "','" + realname + "')";
-				stmt.executeUpdate(sql);
+			try{
 				
-			}else{
-				System.out.println("帳號重複了");
+				
+				Statement stmt = conn.createStatement();
+				
+				String account = "eric", passwd = "123456", realname = "Eric Ho";
+				
+				if (!isDataRepeat(account, stmt)){
+					String sql = "INSERT INTO member (account,passwd,realname)" +
+							" VALUES ('" + account + "','" + passwd + "','" + realname + "')";
+					
+					stmt.executeUpdate(sql);
+					
+					conn.commit();
+					
+				}else{
+					System.out.println("帳號重複了");
+				}
+				
+				System.out.println("OK");
+			}catch (SQLException se){
+				conn.rollback();
 			}
-			
-			System.out.println("OK");
 		}catch(Exception e){
+			
 			System.out.println(e);
 		}
 	}
